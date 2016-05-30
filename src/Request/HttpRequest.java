@@ -10,11 +10,13 @@ public class HttpRequest implements IHttpRequest {
     private Map<String, Object> parameters;
     private Map<String, Object> cookies;
     private String method;
+    private String name;
 
-    public HttpRequest(String method){
+    public HttpRequest(String method,String name){
         this.parameters = new HashMap<>();
         this.cookies = new HashMap<>();
         this.method = method;
+        this.name = name;
     }
 
     @Override
@@ -58,5 +60,15 @@ public class HttpRequest implements IHttpRequest {
             i++;
         }
         return names;
+    }
+
+    @Override
+    public String getRelativePath() {
+        return null;
+    }
+
+    @Override
+    public String getAbsolutePath() {
+        return null;
     }
 }

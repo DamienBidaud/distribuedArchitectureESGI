@@ -10,4 +10,6 @@ public interface IHttpRequest {
     String getMethod();
     Object getCookie(String name);
     String[] getCookiesName();
+    String getRelativePath();
+    String getAbsolutePath();
 }
