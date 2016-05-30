@@ -1,5 +1,7 @@
 package Reponse;
 
+import java.io.IOException;
+import java.io.PrintWriter;
 import java.io.StringWriter;
 import java.io.Writer;
 import java.net.Socket;
@@ -26,12 +28,22 @@ public class HttpResponse implements IHttpResponse {
 
     @Override
     public Writer getWriter() {
-        return null;
+        try {
+            return new PrintWriter(socket.getOutputStream(), true);
+        } catch (IOException e) {
+            e.printStackTrace();
+            return null;
+        }
     }
 
     @Override
     public Stream getOutPutStream() {
-        return null;
+        try {
+            return (Stream) socket.getOutputStream();
+        } catch (IOException e) {
+            e.printStackTrace();
+            return null;
+        }
     }
 
     @Override
