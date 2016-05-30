@@ -1,6 +1,12 @@
 package Request;
 
+import java.io.BufferedReader;
+import java.io.IOException;
+import java.io.InputStreamReader;
+import java.net.Socket;
 import java.util.*;
+
+import static com.sun.org.apache.xalan.internal.lib.ExsltStrings.split;
 
 /**
  * Created by bidau on 30/05/2016.
@@ -12,11 +18,28 @@ public class HttpRequest implements IHttpRequest {
     private String method;
     private String name;
 
-    public HttpRequest(String method,String name){
+    public HttpRequest(Socket socket) throws IOException {
         this.parameters = new HashMap<>();
         this.cookies = new HashMap<>();
-        this.method = method;
-        this.name = name;
+        BufferedReader br = new BufferedReader(new InputStreamReader(socket.getInputStream()));
+        String str = br.readLine();
+        String[] line  =  str.split(" ");
+        method = line[0];
+        while((str = br.readLine()) != null){
+            if((line = str.split(":")).length>1){
+                if(line[0].equals("Cookie")){
+                    cookies.put(line[0], line[1]);
+                }else {
+                    parameters.put(line[0], line[1]);
+                }
+                System.out.println(str);
+            }
+            if(str.equals("")){
+                break;
+            }
+        }
+        name = (String)getParameter("Host");
+        System.out.println();
     }
 
     @Override
@@ -64,11 +87,11 @@ public class HttpRequest implements IHttpRequest {
 
     @Override
     public String getRelativePath() {
-        return null;
+        return "\\";
     }
 
     @Override
     public String getAbsolutePath() {
-        return null;
+        return "C:\\www\\" + this.name;
     }
 }
