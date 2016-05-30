@@ -4,7 +4,6 @@ import java.io.*;
 import java.net.Socket;
 import java.util.*;
 
-import static com.sun.org.apache.xalan.internal.lib.ExsltStrings.split;
 
 /**
  * Created by bidau on 30/05/2016.
@@ -27,9 +26,7 @@ public class HttpRequest implements IHttpRequest {
         path = line[1];
         OutputStream os = socket.getOutputStream();
         PrintWriter pw = new PrintWriter(os, true);
-        System.out.println(str);
         while((str = br.readLine()) != null){
-            System.out.println(str);
             if((line = str.split(":")).length>1){
                 if(line[0].equals("Cookie")){
                     cookies.put(line[0], line[1]);

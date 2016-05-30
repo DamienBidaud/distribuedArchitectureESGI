@@ -4,7 +4,6 @@ import Service.HttpService;
 
 import java.io.*;
 import java.net.*;
-import java.util.HashMap;
 
 /**
  * Created by bidau on 30/05/2016.
