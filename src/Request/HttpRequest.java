@@ -15,6 +15,7 @@ public class HttpRequest implements IHttpRequest {
     private Map<String, Object> cookies;
     private String method;
     private String name;
+    private String path;
 
     public HttpRequest(Socket socket) throws IOException {
         this.parameters = new HashMap<>();
@@ -23,11 +24,12 @@ public class HttpRequest implements IHttpRequest {
         String str = br.readLine();
         String[] line  =  str.split(" ");
         method = line[0];
+        path = line[1];
         OutputStream os = socket.getOutputStream();
         PrintWriter pw = new PrintWriter(os, true);
-        pw.println(pw);
+        System.out.println(str);
         while((str = br.readLine()) != null){
-            pw.println(str);
+            System.out.println(str);
             if((line = str.split(":")).length>1){
                 if(line[0].equals("Cookie")){
                     cookies.put(line[0], line[1]);
@@ -40,6 +42,7 @@ public class HttpRequest implements IHttpRequest {
             }
         }
         name = (String)getParameter("Host");
+        name = name.replace(" ", "");
     }
 
     @Override
@@ -87,11 +90,11 @@ public class HttpRequest implements IHttpRequest {
 
     @Override
     public String getRelativePath() {
-        return "\\";
+        return this.path;
     }
 
     @Override
     public String getAbsolutePath() {
-        return "C:\\www\\" + this.name;
+        return "C:/www/" + this.name+""+this.path;
     }
 }
