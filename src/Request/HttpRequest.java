@@ -1,8 +1,6 @@
 package Request;
 
-import java.io.BufferedReader;
-import java.io.IOException;
-import java.io.InputStreamReader;
+import java.io.*;
 import java.net.Socket;
 import java.util.*;
 
@@ -25,21 +23,23 @@ public class HttpRequest implements IHttpRequest {
         String str = br.readLine();
         String[] line  =  str.split(" ");
         method = line[0];
+        OutputStream os = socket.getOutputStream();
+        PrintWriter pw = new PrintWriter(os, true);
+        pw.println(pw);
         while((str = br.readLine()) != null){
+            pw.println(str);
             if((line = str.split(":")).length>1){
                 if(line[0].equals("Cookie")){
                     cookies.put(line[0], line[1]);
                 }else {
                     parameters.put(line[0], line[1]);
                 }
-                System.out.println(str);
             }
             if(str.equals("")){
                 break;
             }
         }
         name = (String)getParameter("Host");
-        System.out.println();
     }
 
     @Override

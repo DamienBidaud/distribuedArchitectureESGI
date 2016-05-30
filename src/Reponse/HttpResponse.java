@@ -3,6 +3,8 @@ package Reponse;
 import java.io.StringWriter;
 import java.io.Writer;
 import java.net.Socket;
+import java.util.HashMap;
+import java.util.Map;
 import java.util.stream.Stream;
 
 /**
@@ -14,10 +16,12 @@ public class HttpResponse implements IHttpResponse {
     private String method;
     private Writer writer;
     private Stream stream;
+    private Map<String, String> cookie;
 
     public HttpResponse(Socket socket){
         this.socket = socket;
         this.writer = new StringWriter();
+        this.cookie = new HashMap<>();
     }
 
     @Override
@@ -37,5 +41,6 @@ public class HttpResponse implements IHttpResponse {
 
     @Override
     public void setCookie(String name, String value) {
+        this.cookie.put(name, value);
     }
 }

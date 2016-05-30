@@ -28,6 +28,11 @@ public class Server {
             //socket = serverSocket.accept();
             req = new HttpRequest(socket);
             resp = new HttpResponse(socket);
+            resp.setMethod(req.getMethod());
+            String[] cookieName = req.getCookiesName();
+            for(int i = 0; i < cookieName.length; i++){
+                resp.setCookie(cookieName[i], (String)req.getCookie(cookieName[i]));
+            }
             new HttpService().service(req, resp);
 
             //pw.close();
