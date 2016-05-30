@@ -3,7 +3,12 @@ package Service;
 import Reponse.IHttpResponse;
 import Request.IHttpRequest;
 
+import java.io.File;
+import java.io.IOException;
 import java.io.PrintWriter;
+import java.nio.file.Files;
+import java.nio.file.Path;
+import java.nio.file.Paths;
 
 /**
  * Created by bidau on 30/05/2016.
@@ -18,7 +23,12 @@ public class HttpService implements IHttpService {
             printWriter.println(parameters[i]+":"+request.getParameter(parameters[i]));
         }
         printWriter.println("");
-        printWriter.println(request.getAbsolutePath());
-        printWriter.println(request.getRelativePath());
+
+        try {
+
+            Files.lines(Paths.get("."+request.getRelativePath())).forEach(printWriter::println);
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
     }
 }
