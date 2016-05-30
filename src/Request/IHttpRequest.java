@@ -5,8 +5,8 @@ package Request;
  */
 public interface IHttpRequest {
 
-    Object getParamet(String name);
-    String[] getParametresName();
+    Object getParameter(String name);
+    String[] getParametersName();
     String getMethod();
     Object getCookie(String name);
     String[] getCookiesName();
