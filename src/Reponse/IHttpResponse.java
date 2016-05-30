@@ -9,7 +9,7 @@ import java.util.stream.Stream;
  */
 public interface IHttpResponse {
     Writer getWriter();
-    Stream getOutPutSream();
+    Stream getOutPutStream();
     void setMethod(String name);
     void setCookie(String name, String value);
 }

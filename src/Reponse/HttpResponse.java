@@ -13,7 +13,7 @@ public class HttpResponse implements IHttpResponse {
     }
 
     @Override
-    public Stream getOutPutSream() {
+    public Stream getOutPutStream() {
         return null;
     }
 
