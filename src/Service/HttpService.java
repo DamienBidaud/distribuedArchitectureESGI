@@ -3,30 +3,54 @@ package Service;
 import Reponse.IHttpResponse;
 import Request.IHttpRequest;
 
+import java.io.File;
 import java.io.IOException;
 import java.io.PrintWriter;
 import java.nio.file.Files;
 import java.nio.file.Paths;
+import java.util.ArrayList;
+import java.util.Arrays;
 
-/**
- * Created by bidau on 30/05/2016.
- */
 public class HttpService implements IHttpService {
     @Override
     public void service(IHttpRequest request, IHttpResponse response) {
         PrintWriter printWriter = (PrintWriter) response.getWriter();
         String[] parameters = request.getParametersName();
-        printWriter.println("HTTP/1.1 200");
-        for(int i = 0; i < parameters.length; i++){
-            printWriter.println(parameters[i]+":"+request.getParameter(parameters[i]));
-        }
-        printWriter.println("");
+        if(Files.exists(Paths.get("."+request.getRelativePath()))) {
+            printWriter.println("HTTP/1.1 200");
+            for (int i = 0; i < parameters.length; i++) {
+                printWriter.println(parameters[i] + ":" + request.getParameter(parameters[i]));
+            }
+            printWriter.println("");
 
-        try {
-
-            Files.lines(Paths.get("."+request.getRelativePath())).forEach(printWriter::println);
-        } catch (IOException e) {
-            e.printStackTrace();
+            try {
+                if (Files.isDirectory(Paths.get("." + request.getRelativePath()))) {
+                    File f  = new File("."+request.getRelativePath());
+                    ArrayList<String> files = new ArrayList<>(Arrays.asList(f.list()));
+                    printWriter.println("<html>");
+                    printWriter.println("<body>");
+                    printWriter.println("<ul>");
+                    for (String file:files
+                         ) {
+                        printWriter.println("<li>"+file+"</li>");
+                    }
+                    printWriter.println("</ul>");
+                    printWriter.println("</body>");
+                    printWriter.println("</html>");
+                } else {
+                    Files.lines(Paths.get("." + request.getRelativePath())).forEach(printWriter::println);
+                }
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
+        }else{
+            printWriter.println("HTTP/1.1 404");
+            printWriter.println("");
+            printWriter.println("<html>");
+            printWriter.println("<body>");
+            printWriter.println("<h1>404 File not Found</h1>");
+            printWriter.println("</html>");
+            printWriter.println("</body>");
         }
     }
 }

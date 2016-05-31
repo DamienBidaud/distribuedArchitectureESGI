@@ -20,26 +20,29 @@ public class HttpRequest implements IHttpRequest {
         this.parameters = new HashMap<>();
         this.cookies = new HashMap<>();
         BufferedReader br = new BufferedReader(new InputStreamReader(socket.getInputStream()));
+
         String str = br.readLine();
-        String[] line  =  str.split(" ");
-        method = line[0];
-        path = line[1];
-        OutputStream os = socket.getOutputStream();
-        PrintWriter pw = new PrintWriter(os, true);
-        while((str = br.readLine()) != null){
-            if((line = str.split(":")).length>1){
-                if(line[0].equals("Cookie")){
-                    cookies.put(line[0], line[1]);
-                }else {
-                    parameters.put(line[0], line[1]);
+        if(str!=null) {
+            String[] line = str.split(" ");
+            method = line[0];
+            path = line[1];
+            OutputStream os = socket.getOutputStream();
+            PrintWriter pw = new PrintWriter(os, true);
+            while ((str = br.readLine()) != null) {
+                if ((line = str.split(":")).length > 1) {
+                    if (line[0].equals("Cookie")) {
+                        cookies.put(line[0], line[1]);
+                    } else {
+                        parameters.put(line[0], line[1]);
+                    }
+                }
+                if (str.equals("")) {
+                    break;
                 }
             }
-            if(str.equals("")){
-                break;
-            }
+            name = (String) getParameter("Host");
+            name = name.replace(" ", "");
         }
-        name = (String)getParameter("Host");
-        name = name.replace(" ", "");
     }
 
     @Override
