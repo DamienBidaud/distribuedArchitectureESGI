@@ -5,9 +5,6 @@ import java.net.Socket;
 import java.util.*;
 
 
-/**
- * Created by bidau on 30/05/2016.
- */
 public class HttpRequest implements IHttpRequest {
 
     private Map<String, Object> parameters;
@@ -26,8 +23,6 @@ public class HttpRequest implements IHttpRequest {
             String[] line = str.split(" ");
             method = line[0];
             path = line[1];
-            OutputStream os = socket.getOutputStream();
-            PrintWriter pw = new PrintWriter(os, true);
             while ((str = br.readLine()) != null) {
                 if ((line = str.split(":")).length > 1) {
                     if (line[0].equals("Cookie")) {
@@ -42,6 +37,8 @@ public class HttpRequest implements IHttpRequest {
             }
             name = (String) getParameter("Host");
             name = name.replace(" ", "");
+            String[] hostTmp = name.split("\\.");
+            name = hostTmp[1];
         }
     }
 

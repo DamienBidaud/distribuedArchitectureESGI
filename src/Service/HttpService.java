@@ -16,7 +16,7 @@ public class HttpService implements IHttpService {
     public void service(IHttpRequest request, IHttpResponse response) {
         PrintWriter printWriter = (PrintWriter) response.getWriter();
         String[] parameters = request.getParametersName();
-        if(Files.exists(Paths.get("."+request.getRelativePath()))) {
+        if(Files.exists(Paths.get(request.getAbsolutePath()))) {
             printWriter.println("HTTP/1.1 200");
             for (int i = 0; i < parameters.length; i++) {
                 printWriter.println(parameters[i] + ":" + request.getParameter(parameters[i]));
@@ -24,16 +24,16 @@ public class HttpService implements IHttpService {
             printWriter.println("");
 
             try {
-                if (Files.isDirectory(Paths.get("." + request.getRelativePath()))) {
-                    File f  = new File("."+request.getRelativePath());
+                if (Files.isDirectory(Paths.get( request.getAbsolutePath()))) {
+                    File f  = new File(request.getAbsolutePath());
                     ArrayList<String> files = new ArrayList<>(Arrays.asList(f.list()));
                     printWriter.println("<html>");
                     printWriter.println("<body>");
                     printWriter.println("<ul>");
                     for (String file:files
                          ) {
-                        if(Files.isDirectory(Paths.get("."+request.getRelativePath()+"/"+file)))
-                            printWriter.println("<li><a href="+"."+request.getRelativePath()+"/"+file+">"+file+"</a></li>");
+                        if(Files.isDirectory(Paths.get(request.getAbsolutePath()+"/"+file)))
+                            printWriter.println("<li><a href="+request.getAbsolutePath()+"/"+file+">"+file+"</a></li>");
                         else
                             printWriter.println("<li>"+file+"</li>");
                     }
@@ -41,7 +41,7 @@ public class HttpService implements IHttpService {
                     printWriter.println("</body>");
                     printWriter.println("</html>");
                 } else {
-                    Files.lines(Paths.get("." + request.getRelativePath())).forEach(printWriter::println);
+                    Files.lines(Paths.get( request.getAbsolutePath())).forEach(printWriter::println);
                 }
             } catch (IOException e) {
                 e.printStackTrace();
