@@ -28,12 +28,16 @@ public class HttpService implements IHttpService {
                     printWriter.println("<html>");
                     printWriter.println("<body>");
                     printWriter.println("<ul>");
+                    printWriter.println("<li><a href=" + request.getAbsolutePath() + ">..</a></li>");
                     for (String file : files
                             ) {
+                        String path = request.getAbsolutePath() + "" + file;
+                        path = path.replace("/", "\\");
                         if (Files.isDirectory(Paths.get(request.getAbsolutePath() + "" + file)))
-                            printWriter.println("<li><a href=" + request.getAbsolutePath() + "" + file + ">" + file + "</a></li>");
+
+                            printWriter.println("<li><a href='" + path + "'>" + file + "</a></li>");
                         else
-                            printWriter.println("<li><a href=" + request.getAbsolutePath() + "" + file + " download='" + request.getAbsolutePath() + "" + file + "'>" + file + "</a></li>");
+                            printWriter.println("<li><a href=" +path + " download='" + path + "'>" + file + "</a></li>");
                     }
                     printWriter.println("</ul>");
                     printWriter.println("</body>");
