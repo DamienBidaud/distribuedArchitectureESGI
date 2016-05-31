@@ -15,7 +15,6 @@ public class HttpService implements IHttpService {
         PrintWriter printWriter = (PrintWriter) response.getWriter();
         String[] parameters = request.getParametersName();
         FileInputStream input;
-        String result = null;
         if(Files.exists(Paths.get(request.getAbsolutePath()))) {
             printWriter.println("HTTP/1.1 200");
             for (String parameter : parameters) {
