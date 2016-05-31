@@ -43,17 +43,6 @@ public class HttpService implements IHttpService {
                     printWriter.println("content-type:" + Files.probeContentType(Paths.get(request.getAbsolutePath())));
                     printWriter.println("");
                     input = new FileInputStream(new File(request.getAbsolutePath()));
-                   /* InputStreamReader reader = new InputStreamReader(input);
-                    BufferedReader bufferedReader = new BufferedReader(reader);
-                    StringBuilder sb = new StringBuilder();
-                    String line = bufferedReader.readLine();
-                    while (line != null) {
-                        sb.append(line);
-                        line = bufferedReader.readLine();
-                    }
-                    bufferedReader.close();
-                    result = sb.toString();
-                    printWriter.println(result);*/
                     BufferedOutputStream out = new BufferedOutputStream(response.getOutPutStream());
                     BufferedInputStream reader = new BufferedInputStream( input );
                     byte[] buffer = new byte[ 4096 ];
