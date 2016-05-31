@@ -21,6 +21,13 @@ public class HttpRequest implements IHttpRequest {
         String str = br.readLine();
         if(str!=null) {
             String[] line = str.split(" ");
+            if(line.length!= 3){
+                try {
+                    throw new Exception("Incorrect method");
+                } catch (Exception e) {
+                    e.printStackTrace();
+                }
+            }
             method = line[0];
             path = line[1];
             while ((str = br.readLine()) != null) {

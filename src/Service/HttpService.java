@@ -22,7 +22,6 @@ public class HttpService implements IHttpService {
                 printWriter.println(parameter + ":" + request.getParameter(parameter));
             }
             printWriter.println("");
-
             try {
                 if (Files.isDirectory(Paths.get( request.getAbsolutePath()))) {
                     File f  = new File(request.getAbsolutePath());
