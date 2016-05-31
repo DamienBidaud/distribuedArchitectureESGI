@@ -1,9 +1,6 @@
 package Reponse;
 
-import java.io.IOException;
-import java.io.PrintWriter;
-import java.io.StringWriter;
-import java.io.Writer;
+import java.io.*;
 import java.net.Socket;
 import java.util.HashMap;
 import java.util.Map;
@@ -35,9 +32,9 @@ public class HttpResponse implements IHttpResponse {
     }
 
     @Override
-    public Stream getOutPutStream() {
+    public OutputStream getOutPutStream() {
         try {
-            return (Stream) socket.getOutputStream();
+            return  socket.getOutputStream();
         } catch (IOException e) {
             e.printStackTrace();
             return null;
