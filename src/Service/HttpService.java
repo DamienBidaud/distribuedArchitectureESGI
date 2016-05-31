@@ -32,10 +32,7 @@ public class HttpService implements IHttpService {
                     printWriter.println("<ul>");
                     for (String file:files
                          ) {
-                        if(Files.isDirectory(Paths.get(request.getAbsolutePath()+"/"+file)))
                             printWriter.println("<li><a href="+request.getAbsolutePath()+"/"+file+">"+file+"</a></li>");
-                        else
-                            printWriter.println("<li>"+file+"</li>");
                     }
                     printWriter.println("</ul>");
                     printWriter.println("</body>");
@@ -55,5 +52,6 @@ public class HttpService implements IHttpService {
             printWriter.println("</html>");
             printWriter.println("</body>");
         }
+        printWriter.close();
     }
 }
