@@ -18,7 +18,6 @@ public class Server {
 
         HttpRequest req;
         HttpResponse resp;
-        HttpService service;
         while (true) {
             Socket socket = serverSocket.accept();
             /*OutputStream os = socket.getOutputStream();

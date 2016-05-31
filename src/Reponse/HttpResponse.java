@@ -16,13 +16,11 @@ public class HttpResponse implements IHttpResponse {
 
     private Socket socket;
     private String method;
-    private Writer writer;
     private Stream stream;
     private Map<String, String> cookie;
 
     public HttpResponse(Socket socket){
         this.socket = socket;
-        this.writer = new StringWriter();
         this.cookie = new HashMap<>();
     }
 

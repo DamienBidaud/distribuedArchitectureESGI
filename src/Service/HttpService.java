@@ -18,8 +18,8 @@ public class HttpService implements IHttpService {
         String[] parameters = request.getParametersName();
         if(Files.exists(Paths.get(request.getAbsolutePath()))) {
             printWriter.println("HTTP/1.1 200");
-            for (int i = 0; i < parameters.length; i++) {
-                printWriter.println(parameters[i] + ":" + request.getParameter(parameters[i]));
+            for (String parameter : parameters) {
+                printWriter.println(parameter + ":" + request.getParameter(parameter));
             }
             printWriter.println("");
 
