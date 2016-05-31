@@ -20,10 +20,6 @@ public class Server {
         HttpResponse resp;
         while (true) {
             Socket socket = serverSocket.accept();
-            /*OutputStream os = socket.getOutputStream();
-            PrintWriter pw = new PrintWriter(os, true);
-            BufferedReader br = new BufferedReader(new InputStreamReader(socket.getInputStream()));*/
-            //socket = serverSocket.accept();
             req = new HttpRequest(socket);
             resp = new HttpResponse(socket);
             resp.setMethod(req.getMethod());
@@ -32,8 +28,6 @@ public class Server {
                 resp.setCookie(aCookieName, (String) req.getCookie(aCookieName));
             }
             new HttpService().service(req, resp);
-
-            //pw.close();
             socket.close();
         }
     }

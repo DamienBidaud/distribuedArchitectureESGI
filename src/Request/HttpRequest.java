@@ -30,11 +30,27 @@ public class HttpRequest implements IHttpRequest {
             }
             method = line[0];
             path = line[1];
+            line = path.split("\\?");
+            path = line[0];
+            if(line.length>1){
+
+                String[] paremetreUrl = line[1].split("&");
+                for (String para: paremetreUrl
+                     ) {
+                    line = para.split("=");
+                    if(line.length>0) {
+                        if (line.length > 1)
+                            parameters.put(line[0], line[1]);
+                        else
+                            parameters.put(line[0], "");
+                    }
+                }
+            }
             while ((str = br.readLine()) != null) {
                 if ((line = str.split(":")).length > 1) {
                     if (line[0].equals("Cookie")) {
                         cookies.put(line[0], line[1]);
-                    } else {
+                    }else {
                         parameters.put(line[0], line[1]);
                     }
                 }
