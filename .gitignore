@@ -1,5 +1,11 @@
 /.idea/*
-/out/*
-httpServer.iml
-LoadBalenceur/LoadBalenceur.iml
-LoadBalenceur/.idea/*
+HttpServer/.idea/*
+HttpServer/out/*
+HttpServer/httpServer.iml
+HttpServer/.gradle/*
+HttpServer/gradle/*
+loadBalencer/LoadBalenceur/LoadBalenceur.iml
+loadBalencer/LoadBalenceur/.idea/*
+loadBalencer/.gradle/*
+loadBalencer/gradle/*
+loadBalencer/.idea/*
