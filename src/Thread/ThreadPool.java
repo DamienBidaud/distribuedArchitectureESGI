@@ -4,52 +4,81 @@ import Structur.Node;
 import Structur.Stack;
 import Structur.WaitingList;
 
+import java.util.ArrayList;
+import java.util.List;
+import java.util.PriorityQueue;
+import java.util.Queue;
+
 public class ThreadPool {
 
-    private int maxJob;
-    private int maxWaitingWorker;
-    private Stack jobs;
-    private WaitingList waitingList;
+    final Object lock = new Object();
 
+    boolean shouldStop = false;
 
-    public ThreadPool(int maxJob, int maxWaitingWorker){
-        this.maxJob = maxJob;
-        this.maxWaitingWorker = maxWaitingWorker;
-        this.jobs = new Stack();
-        this.waitingList = new WaitingList();
-    }
+    PriorityQueue<PrioritizedAction> actions = new PriorityQueue<>();
+    List<Worker> workers = new ArrayList<>();
 
-    public boolean addWorker(Worker worker){
-        if(waitingList.getSize() < maxWaitingWorker){
-            worker.setThreadPool(this);
-            Node<Worker> workerNode = new Node<>(null, worker);
-            this.waitingList.add(workerNode);
-            launchWork();
-            return true;
-        }else{
-            return false;
+    public ThreadPool(int nb) {
+        for(int i = 0; i < nb; i++) {
+            Worker w = new Worker(this);
+            Thread t = new Thread(w);
+            workers.add(w);
+            t.start();
         }
     }
 
-    public boolean addJob(Job job){
-        if(this.jobs.getSize()<maxJob){
-            this.jobs.push(job);
-            notifyOne();
-            return true;
-        }else{
-            return false;
+    public void submit(int priority, Action action) {
+        submit(new PrioritizedAction(priority, action));
+    }
+
+    public void submit(Action action) {
+        submit(new PrioritizedAction(1, action));
+    }
+
+    private void submit(PrioritizedAction action) {
+        synchronized (lock) {
+            actions.add(action);
+            lock.notify();
         }
     }
 
-    public void launchWork(){
-        if(!this.jobs.isEmpty() && !this.waitingList.isEmpty() && this.jobs.pop()!=null){
-            Worker worker = this.waitingList.remove();
-            worker.setJob(this.jobs.peek());
-            worker.start();
+    public Action consume() {
+        synchronized (lock) {
+            while(actions.isEmpty() && !shouldStop) {
+                try {
+                    lock.wait();
+                } catch (InterruptedException e) {}
+            }
+
+            PrioritizedAction pAction = actions.poll();
+            return pAction != null ? pAction.action : null;
         }
     }
 
-    public void notifyOne(){
-        this.launchWork();
+    public void stop() {
+        synchronized (lock) {
+            shouldStop = true;
+
+            lock.notifyAll();
+        }
     }
+
+    private class PrioritizedAction implements Comparable {
+        private int priority;
+        private Action action;
+
+        public PrioritizedAction(int priority, Action action) {
+            this.priority = priority;
+            this.action = action;
+        }
+
+        @Override
+        public int compareTo(Object o) {
+            if(o instanceof PrioritizedAction)
+                return priority - ((PrioritizedAction) o).priority;
+            else
+                return 1;
+        }
+    }
+
 }

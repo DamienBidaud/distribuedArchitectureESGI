@@ -1,27 +1,23 @@
 package Thread;
 
-public class Worker extends Thread {
-
-    private Job job;
-    private ThreadPool threadPool;
-
-    @Override
-    public void run(){
-        if(this.job!= null)
-            this.job.execute();
-        threadPool.addJob(this.job);
-        job = null;
-        threadPool.addWorker(new Worker());
-        System.out.println("Fin "+Thread.currentThread().getName());
-    }
+public class Worker implements Runnable {
 
 
-    public void setJob(Job job) {
-        this.job = job;
-    }
 
+    ThreadPool threadPool;
 
-    public void setThreadPool(ThreadPool threadPool) {
+    public Worker(ThreadPool threadPool) {
         this.threadPool = threadPool;
     }
+
+    @Override
+    public void run() {
+        while (!threadPool.shouldStop) {
+            Action action = threadPool.consume();
+            if (action != null) {
+                action.apply();
+            }
+        }
+    }
+
 }

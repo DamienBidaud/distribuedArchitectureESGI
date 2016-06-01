@@ -4,31 +4,21 @@ import Service.HttpService;
 
 import java.io.*;
 import java.net.*;
+import Thread.ThreadPool;
 
 /**
  * Created by bidau on 30/05/2016.
  */
 public class Server {
 
-
+    private static ServerSocket serverSocket;
     public static void main(String args[]) throws IOException {
-        final int portNumber = 80;
-        System.out.println("Creating server socket on port " + portNumber);
-        ServerSocket serverSocket = new ServerSocket(portNumber);
+        HttpServer httpServer = new HttpServer();
+        httpServer.run();
 
-        HttpRequest req;
-        HttpResponse resp;
-        while (true) {
-            Socket socket = serverSocket.accept();
-            req = new HttpRequest(socket);
-            resp = new HttpResponse(socket);
-            resp.setMethod(req.getMethod());
-            String[] cookieName = req.getCookiesName();
-            for (String aCookieName : cookieName) {
-                resp.setCookie(aCookieName, (String) req.getCookie(aCookieName));
-            }
-            new HttpService().service(req, resp);
-            socket.close();
-        }
+
+
     }
+
+
 }
