@@ -15,7 +15,7 @@ public class HttpService implements IHttpService {
         PrintWriter printWriter = (PrintWriter) response.getWriter();
         String[] parameters = request.getParametersName();
         FileInputStream input;
-        if(Files.exists(Paths.get(request.getAbsolutePath()))) {
+        if (Files.exists(Paths.get(request.getAbsolutePath()))) {
             printWriter.println("HTTP/1.1 200");
             for (String parameter : parameters) {
                 printWriter.println(parameter + ":" + request.getParameter(parameter));
@@ -37,7 +37,7 @@ public class HttpService implements IHttpService {
 
                             printWriter.println("<li><a href='" + path + "'>" + file + "</a></li>");
                         else
-                            printWriter.println("<li><a href=" +path + " download='" + path + "'>" + file + "</a></li>");
+                            printWriter.println("<li><a href=" + path + " download='" + path + "'>" + file + "</a></li>");
                     }
                     printWriter.println("</ul>");
                     printWriter.println("</body>");
@@ -47,11 +47,11 @@ public class HttpService implements IHttpService {
                     printWriter.println("");
                     input = new FileInputStream(new File(request.getAbsolutePath()));
                     BufferedOutputStream out = new BufferedOutputStream(response.getOutPutStream());
-                    BufferedInputStream reader = new BufferedInputStream( input );
-                    byte[] buffer = new byte[ 4096 ];
+                    BufferedInputStream reader = new BufferedInputStream(input);
+                    byte[] buffer = new byte[4096];
                     int bytesRead;
-                    while ( (bytesRead = reader.read(buffer)) != -1 ) {
-                        out.write( buffer, 0, bytesRead );
+                    while ((bytesRead = reader.read(buffer)) != -1) {
+                        out.write(buffer, 0, bytesRead);
                     }
                     reader.close();
                     out.flush();
@@ -60,7 +60,7 @@ public class HttpService implements IHttpService {
             } catch (IOException e) {
                 e.printStackTrace();
             }
-        }else{
+        } else {
             printWriter.println("HTTP/1.1 404");
             printWriter.println("");
             printWriter.println("<html>");

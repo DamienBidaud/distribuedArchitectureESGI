@@ -3,7 +3,6 @@ package Thread;
 public class Worker implements Runnable {
 
 
-
     ThreadPool threadPool;
 
     public Worker(ThreadPool threadPool) {

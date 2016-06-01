@@ -6,10 +6,16 @@ package Request;
 public interface IHttpRequest {
 
     Object getParameter(String name);
+
     String[] getParametersName();
+
     String getMethod();
+
     Object getCookie(String name);
+
     String[] getCookiesName();
+
     String getRelativePath();
+
     String getAbsolutePath();
 }

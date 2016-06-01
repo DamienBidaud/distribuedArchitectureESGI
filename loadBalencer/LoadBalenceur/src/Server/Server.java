@@ -1,25 +1,31 @@
 package Server;
 
-/**
- * Created by bidau on 01/06/2016.
- */
+
+import server.HttpServerStatic;
+
+import java.io.IOException;
+
 public class Server implements IServer {
 
     private String ip;
     private int port;
 
-    @Override
+
     public void configure(String ip, int port) {
         this.ip = ip;
         this.port = port;
     }
 
-    @Override
     public void launch() {
-
+        HttpServerStatic httpServerStatic = new HttpServerStatic();
+        try {
+            httpServerStatic.run(this.port);
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
     }
 
-    @Override
+
     public void stop() {
 
     }

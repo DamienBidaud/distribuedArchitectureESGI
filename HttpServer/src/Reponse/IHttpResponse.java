@@ -8,7 +8,10 @@ import java.io.Writer;
  */
 public interface IHttpResponse {
     Writer getWriter();
+
     OutputStream getOutPutStream();
+
     void setMethod(String name);
+
     void setCookie(String name, String value);
 }

@@ -1,8 +1,13 @@
 package Request;
 
-import java.io.*;
+import java.io.BufferedReader;
+import java.io.IOException;
+import java.io.InputStreamReader;
 import java.net.Socket;
-import java.util.*;
+import java.util.HashMap;
+import java.util.Iterator;
+import java.util.Map;
+import java.util.Set;
 
 
 public class HttpRequest implements IHttpRequest {
@@ -19,9 +24,9 @@ public class HttpRequest implements IHttpRequest {
         BufferedReader br = new BufferedReader(new InputStreamReader(socket.getInputStream()));
 
         String str = br.readLine();
-        if(str!=null) {
+        if (str != null) {
             String[] line = str.split(" ");
-            if(line.length!= 3){
+            if (line.length != 3) {
                 try {
                     throw new Exception("Incorrect method");
                 } catch (Exception e) {
@@ -32,13 +37,13 @@ public class HttpRequest implements IHttpRequest {
             path = line[1];
             line = path.split("\\?");
             path = line[0];
-            if(line.length>1){
+            if (line.length > 1) {
 
                 String[] paremetreUrl = line[1].split("&");
-                for (String para: paremetreUrl
-                     ) {
+                for (String para : paremetreUrl
+                        ) {
                     line = para.split("=");
-                    if(line.length>0) {
+                    if (line.length > 0) {
                         if (line.length > 1)
                             parameters.put(line[0], line[1]);
                         else
@@ -50,7 +55,7 @@ public class HttpRequest implements IHttpRequest {
                 if ((line = str.split(":")).length > 1) {
                     if (line[0].equals("Cookie")) {
                         cookies.put(line[0], line[1]);
-                    }else {
+                    } else {
                         parameters.put(line[0], line[1]);
                     }
                 }
@@ -72,12 +77,12 @@ public class HttpRequest implements IHttpRequest {
 
     @Override
     public String[] getParametersName() {
-        String names[] =  new String[this.parameters.size()];
+        String names[] = new String[this.parameters.size()];
         Set setParameters = this.parameters.keySet();
         Iterator it = setParameters.iterator();
         int i = 0;
-        while(it.hasNext()){
-            String key= (String) it.next();
+        while (it.hasNext()) {
+            String key = (String) it.next();
             names[i] = key;
             i++;
         }
@@ -96,12 +101,12 @@ public class HttpRequest implements IHttpRequest {
 
     @Override
     public String[] getCookiesName() {
-        String names[] =  new String[this.cookies.size()];
+        String names[] = new String[this.cookies.size()];
         Set setParameters = this.cookies.keySet();
         Iterator it = setParameters.iterator();
         int i = 0;
-        while(it.hasNext()){
-            String key= (String) it.next();
+        while (it.hasNext()) {
+            String key = (String) it.next();
             names[i] = key;
             i++;
         }
@@ -115,6 +120,6 @@ public class HttpRequest implements IHttpRequest {
 
     @Override
     public String getAbsolutePath() {
-        return "C:/www/" + this.name+""+this.path;
+        return "C:/www/" + this.name + "" + this.path;
     }
 }

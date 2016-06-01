@@ -1,6 +1,9 @@
 package Reponse;
 
-import java.io.*;
+import java.io.IOException;
+import java.io.OutputStream;
+import java.io.PrintWriter;
+import java.io.Writer;
 import java.net.Socket;
 import java.util.HashMap;
 import java.util.Map;
@@ -16,7 +19,7 @@ public class HttpResponse implements IHttpResponse {
     private Stream stream;
     private Map<String, String> cookie;
 
-    public HttpResponse(Socket socket){
+    public HttpResponse(Socket socket) {
         this.socket = socket;
         this.cookie = new HashMap<>();
     }
@@ -34,7 +37,7 @@ public class HttpResponse implements IHttpResponse {
     @Override
     public OutputStream getOutPutStream() {
         try {
-            return  socket.getOutputStream();
+            return socket.getOutputStream();
         } catch (IOException e) {
             e.printStackTrace();
             return null;

@@ -1,6 +1,9 @@
+package server;
+
 import Reponse.HttpResponse;
 import Request.HttpRequest;
 import Service.HttpService;
+import Thread.*;
 
 import java.io.IOException;
 import java.net.ServerSocket;
@@ -9,25 +12,21 @@ import java.net.Socket;
 /**
  * Created by bidau on 01/06/2016.
  */
-import Thread.*;
 
-public class HttpServer {
+public class HttpServerStatic {
 
-    public void run() throws IOException {
-        final int portNumber = 80;
+    public void run(int portNumber) throws IOException {
         System.out.println("Creating server socket on port " + portNumber);
         ServerSocket serverSocket = new ServerSocket(portNumber);
         ThreadPool pool = new ThreadPool(16);
         while (true) {
             Socket socket = serverSocket.accept();
             pool.submit(1, () -> handleRequest(socket));
-
         }
     }
 
 
-
-    public void handleRequest(Socket socket){
+    public void handleRequest(Socket socket) {
         HttpRequest req;
         HttpResponse resp;
 

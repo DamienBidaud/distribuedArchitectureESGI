@@ -5,6 +5,7 @@ import Server.Server;
 
 import java.io.IOException;
 import java.net.ServerSocket;
+import java.net.Socket;
 import java.util.HashMap;
 import java.util.Map;
 
@@ -32,8 +33,17 @@ public class LoadBalancer {
     public void addServer(String ip, int port){
         IServer server = new Server();
         server.configure(ip, port);
+        server.launch();
         this.servers.put(server, 0);
         this.size++;
+    }
+
+    public void run() throws IOException {
+        ServerSocket serverSocket = new ServerSocket(80);
+        while (true) {
+            Socket socket = serverSocket.accept();
+            System.out.println("Creating server socket on port " + 80);
+        }
     }
 
 

@@ -16,7 +16,7 @@ public class ThreadPool {
     List<Worker> workers = new ArrayList<>();
 
     public ThreadPool(int nb) {
-        for(int i = 0; i < nb; i++) {
+        for (int i = 0; i < nb; i++) {
             Worker w = new Worker(this);
             Thread t = new Thread(w);
             workers.add(w);
@@ -41,10 +41,11 @@ public class ThreadPool {
 
     public Action consume() {
         synchronized (lock) {
-            while(actions.isEmpty() && !shouldStop) {
+            while (actions.isEmpty() && !shouldStop) {
                 try {
                     lock.wait();
-                } catch (InterruptedException e) {}
+                } catch (InterruptedException e) {
+                }
             }
 
             PrioritizedAction pAction = actions.poll();
@@ -71,7 +72,7 @@ public class ThreadPool {
 
         @Override
         public int compareTo(Object o) {
-            if(o instanceof PrioritizedAction)
+            if (o instanceof PrioritizedAction)
                 return priority - ((PrioritizedAction) o).priority;
             else
                 return 1;
