@@ -32,6 +32,7 @@ public class HttpServer {
         HttpResponse resp;
 
         try {
+            System.out.println(Thread.currentThread().getName());
             req = new HttpRequest(socket);
             resp = new HttpResponse(socket);
             resp.setMethod(req.getMethod());
