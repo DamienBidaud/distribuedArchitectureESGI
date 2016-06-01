@@ -31,9 +31,18 @@ public class Stack {
     }
 
     public Job peek(){
-        Job job = this.top.getValue();
-        this.top = this.top.getNext();
-        return job;
+        if(this.top!=null) {
+            Job job = this.top.getValue();
+            this.top = this.top.getNext();
+            size--;
+            return job;
+        }else{
+            return null;
+        }
+    }
+
+    public boolean isEmpty(){
+        return size==0;
     }
 
 

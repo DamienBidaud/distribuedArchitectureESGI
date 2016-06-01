@@ -32,10 +32,15 @@ public class WaitingList {
         Worker worker = first.getValue();
 
         first = first.getNext();
+        this.size--;
         return worker;
     }
 
     public int getSize() {
         return size;
+    }
+
+    public boolean isEmpty(){
+        return this.size==0;
     }
 }
