@@ -29,5 +29,15 @@ public class Stack {
         return this.size;
     }
 
+    public Job pop(){
+        return this.top.getValue();
+    }
+
+    public Job peek(){
+        Job job = this.top.getValue();
+        this.top = this.top.getNext();
+        return job;
+    }
+
 
 }
