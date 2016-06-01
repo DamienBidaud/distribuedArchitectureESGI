@@ -1,15 +1,13 @@
 package Thread;
 
-/**
- * Created by bidau on 31/05/2016.
- */
 public class Worker extends Thread {
 
     private Job job;
 
     @Override
     public void run(){
-
+        if(this.job!= null)
+            this.job.execute();
     }
 
     public Job getJob() {

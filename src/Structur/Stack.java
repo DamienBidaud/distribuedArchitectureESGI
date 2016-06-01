@@ -2,9 +2,6 @@ package Structur;
 
 import Thread.Job;
 
-/**
- * Created by bidau on 01/06/2016.
- */
 public class Stack {
     private Node<Job> top;
     private int size;
