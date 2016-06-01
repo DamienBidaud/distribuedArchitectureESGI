@@ -11,7 +11,7 @@ import Thread.ThreadPool;
  */
 public class Server {
 
-    private static ServerSocket serverSocket;
+
     public static void main(String args[]) throws IOException {
         HttpServer httpServer = new HttpServer();
         httpServer.run();
