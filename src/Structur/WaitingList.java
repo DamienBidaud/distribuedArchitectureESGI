@@ -1,21 +1,20 @@
 package Structur;
 
 import Thread.Worker;
-import Thread.Job;
 
 /**
  * Created by bidau on 31/05/2016.
  */
 public class WaitingList {
-    private Node first;
+    private Node<Worker> first;
     private int size;
 
-    public WaitingList(Node first){
-        this.first = first;
+    public WaitingList(){
+        this.first = null;
         this.size = 0;
     }
 
-    public void add(Node node){
+    public void add(Node<Worker> node){
         if(first==null){
             this.first = node;
 
@@ -32,7 +31,7 @@ public class WaitingList {
     }
 
     public Worker remove(){
-        Worker worker = first.getWorker();
+        Worker worker = first.getValue();
 
         first = first.getNext();
         return worker;

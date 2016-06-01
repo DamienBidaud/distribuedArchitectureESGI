@@ -5,14 +5,14 @@ import Thread.Worker;
 /**
  * Created by bidau on 31/05/2016.
  */
-public class Node {
+public class Node<T> {
     private Node next;
-    private Worker worker;
+    private T value;
 
 
-    public Node(Node next, Worker worker){
+    public Node(Node next, T value){
         this.next = next;
-        this.worker = worker;
+        this.value = value;
     }
 
     public Node getNext() {
@@ -23,11 +23,11 @@ public class Node {
         this.next = next;
     }
 
-    public Worker getWorker() {
-        return worker;
+    public T getValue() {
+        return value;
     }
 
-    public void setWorker(Worker worker) {
-        this.worker = worker;
+    public void setValue(T value) {
+        this.value = value;
     }
 }
